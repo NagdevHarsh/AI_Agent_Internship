@@ -1,0 +1,205 @@
+{
+  "name": "birthday",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "calendarId": {
+          "__rl": true,
+          "value": "804d9c8b1e92f69cff28c8b8111ecd93c0d43847f6f6e2696084b95f70c899d2@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "birthday "
+        },
+        "triggerOn": "eventStarted",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTrigger",
+      "typeVersion": 1,
+      "position": [
+        -440,
+        20
+      ],
+      "id": "ddb000c7-98d1-4935-bb70-bae6f2697399",
+      "name": "Google Calendar Trigger",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "ceTu97X09QvOhA79",
+          "name": "Google Calendar account 3"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=✅ Task Summary (What the Bot Should Do):\nFirst, call the Calendar node and read data from the calendar.\n\nIdentify the date to match today’s date with a birthday event.\n\nIf one or more events are found for today:\n\nLoop through each event individually using a proper iteration method (such as a Loop/For Each node or SplitInBatches).\n\nFor each event, call the Gmail node separately to send a personalized birthday email.\n\nIf matched, send an email using the following format:\n\n✅ Email Format:\nReminder: Today is \"here put title of the event\"!\nTake a moment to send your warm wishes and make them feel appreciated on their special day. Whether it’s a thoughtful message, a quick call, or joining a team celebration, your gesture will go a long way. If there's a group card or small event planned (like cake in the break room), be sure to join in. Celebrating milestones like these helps build a positive and connected environment—don’t miss the chance to make \"here put title of the event\" memorable!",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        -20,
+        -140
+      ],
+      "id": "8c33d172-8da1-4fe6-9371-de96345880de",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "qwen-qwq-32b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        100
+      ],
+      "id": "d65d1399-f177-41c1-b800-867aa26739dd",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "nLbAwxoLDRleg47p",
+          "name": "Groq account 9"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "harshnagdev.conversantech@gmail.com",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.1,
+      "position": [
+        80,
+        140
+      ],
+      "id": "5036e6c4-84da-40c0-93a4-40afc27257ad",
+      "name": "Gmail",
+      "webhookId": "57889766-36e4-4e6a-b9cd-68cd1b6c4bc7",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "JoTXi8jLS95xC9d6",
+          "name": "Gmail account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -280,
+        -140
+      ],
+      "id": "aec47fe6-3683-4837-b232-cae83f35a773",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "804d9c8b1e92f69cff28c8b8111ecd93c0d43847f6f6e2696084b95f70c899d2@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "birthday "
+        },
+        "returnAll": true,
+        "timeMax": "={{ $now.plus( 1 , 'days' ) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        260,
+        100
+      ],
+      "id": "ae6df5d3-0980-4feb-bf79-33eb50cf0aff",
+      "name": "Google Calendar",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "ceTu97X09QvOhA79",
+          "name": "Google Calendar account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Google Calendar Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Calendar": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8ad832f9-f2b0-4f2d-bc20-6100eeb49b6b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "efafddee18311adedbf2c57999fc58fea621aaaa17e22321d4e54dfbe25b7bd5"
+  },
+  "id": "7m0i6xMFjR7jNxoA",
+  "tags": []
+}
