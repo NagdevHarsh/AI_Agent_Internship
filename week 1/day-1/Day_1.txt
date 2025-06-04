@@ -1,0 +1,29 @@
+# 📅 Day 1 - [Date]
+
+## 🔖 Task 1: Prompt Engineering for Hotel Management
+
+- Explored prompt engineering basics, techniques, and real-world examples.
+- Created a functional prompt for a **Hotel Management Assistant**.
+  - Can answer user queries related to hotels.
+  - Can handle room booking requests.
+- Stored the prompt in a `.txt` file (attached in this folder).
+
+## 🔖 Task 2: Birthday Reminder Workflow using n8n
+
+- Created a workflow using:
+  - **Trigger:** Scheduler Node.
+  - **Google Calendar Node:** Fetch today's birthday events.
+  - **AI Agent (Gemini/OpenAI):** Generate reminder message.
+  - **Email Node:** Send email reminder to the user.
+- The JSON file for the workflow is added to this folder.
+
+## ✅ Skills Used:
+- Prompt Engineering
+- n8n Automation
+- Workflow Design
+- AI Agent Integration
+- API Nodes & Trigger Scheduling
+
+## 📁 Files:
+- `hotel_prompt.txt` - prompt for hotel assistant.
+- `birthday_reminder_workflow.json` - n8n workflow file.
